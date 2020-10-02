@@ -1,0 +1,36 @@
+formulas(assumptions).
+
+%% 1. Someone who lives in Dreadbury Mansion killed Aunt A.
+exists x (LivesIn(x,D) & Killed(x,A)).
+
+%% 2. A, the B, and C live in Dreadbury Mansion, and are the only people who live there.
+LivesIn(A,D) & LivesIn(C,D) & LivesIn(B,D) & (all x (LivesIn(x,D) -> ((x=A) | (x=C) | (x=B)))).
+
+%% 3. A killer always hates his victim, and is never Rricher than his victim.
+all x all y (Killed(x,y) -> (Hates(x,y) & -(RicherThan(x,y)))).
+
+%% 4. C hates no one that Aunt A hates.
+all x (Hates(A,x) -> -Hates(C,x)).
+
+%% 5. A hates everyone except the B.
+all x (-(x=B) -> Hates(A,x)).
+
+%% 6. The B hates everyone not richer than Aunt A.
+all x (-RicherThan(x,A) -> Hates(B,x)).
+
+%% 7. The B hates everyone Aunt A hates.
+all x (Hates(A,x) -> Hates(B,x)).
+
+%% 8. No one hates everyone.
+(all x exists y (-Hates(x,y))).
+
+%% 9. A is not the B.
+-(A=B).
+
+end_of_list.
+
+formulas(goals).
+
+Killed(A,A).
+
+end_of_list.
